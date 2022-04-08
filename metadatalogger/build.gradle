@@ -3,21 +3,28 @@ plugins{
     id "org.ajoberstar.grgit" version "5.0.0"
 }
 
-
 jar {
     archiveBaseName = 'metadata-logger'
     archiveVersion = '0.0.1'
 }
 
-jar.dependsOn('doVars')
-tasks.register('doVars') {
+jar.dependsOn('buildMetadataFile')
+tasks.register('buildMetadataFile') {
+
+    logger.info("Creating metadata file for inclusion in final artefact")
+
+    ext{
+        outDir="$buildDir/resources/main"
+    }
     doLast {
-        new File("$buildDir/resources/main", "build.info").text = """
+        mkdir outDir
+        new File(outDir, "build.info").text = """
 BuildTime: ${new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date())}
 ArchiveBaseName: ${jar.archiveBaseName.get()}
 ArchiveVersion: ${jar.archiveVersion.get()}
 VersionForFile: ${VersionForFile}
-GitRevision: ${grgit.head().abbreviatedId}
+GitCommitId: ${grgit.head().id}
+GitBranch: ${grgit.branch.current().fullName}
 """
     }
 }

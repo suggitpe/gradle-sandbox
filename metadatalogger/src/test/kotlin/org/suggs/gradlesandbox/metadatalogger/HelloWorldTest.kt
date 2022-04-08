@@ -1,4 +1,4 @@
-package org.suggs.`gradle-sandbox`.buildvars
+package org.suggs.gradlesandbox.metadatalogger
 
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
