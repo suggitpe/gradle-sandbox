@@ -1,0 +1,40 @@
+apply plugin: "com.google.protobuf"
+
+jar {
+    archiveBaseName = 'grpc-proto-sandbox'
+    archiveVersion = '0.0.1'
+}
+
+dependencies {
+    implementation libs.javaxAnnotations,
+            libs.grpcAll,
+            libs.grpcKotlin
+}
+
+sourceSets {
+    main {
+        kotlin {
+            srcDirs 'src/generated/main/grpc'
+            srcDirs 'src/generated/main/grpckt'
+            srcDirs 'src/generated/main/java'
+        }
+    }
+}
+
+protobuf {
+    protoc { artifact = libs.protoc }
+    generatedFilesBaseDir = "$projectDir/src/generated"
+    clean {
+        delete generatedFilesBaseDir
+    }
+    plugins {
+        grpc { artifact = libs.protocGen }
+        grpckt { artifact = libs.protoGenKt }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+            grpckt {}
+        }
+    }
+}
