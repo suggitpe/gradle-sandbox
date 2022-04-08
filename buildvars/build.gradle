@@ -1,0 +1,23 @@
+import java.text.SimpleDateFormat
+plugins{
+    id "org.ajoberstar.grgit" version "5.0.0"
+}
+
+
+jar {
+    archiveBaseName = 'metadata-logger'
+    archiveVersion = '0.0.1'
+}
+
+jar.dependsOn('doVars')
+tasks.register('doVars') {
+    doLast {
+        new File("$buildDir/resources/main", "build.info").text = """
+BuildTime: ${new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date())}
+ArchiveBaseName: ${jar.archiveBaseName.get()}
+ArchiveVersion: ${jar.archiveVersion.get()}
+VersionForFile: ${VersionForFile}
+GitRevision: ${grgit.head().abbreviatedId}
+"""
+    }
+}
