@@ -4,3 +4,5 @@ This module is an example of how to use the gradle build to create a file to be 
  - it creates a file in the output directory of build to then be copied
  - this instance reads data from the build, the local env and from git
 While this has been created as an info file, it could just as easily be a properties file.
+
+Note that in this example i have shown how to add to the build.info and also the MANIFEST.INF.
