@@ -4,9 +4,14 @@ plugins {
     id "org.ajoberstar.grgit" version "5.0.0"
 }
 
+def buildTime(){
+    return new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date())
+//    return "foo"
+}
+
 jar {
-    archiveBaseName = 'metadata-logger'
-    archiveVersion = '0.0.1'
+    archiveBaseName = "metadata-logger"
+    archiveVersion = "${buildTime()}"
     manifest {
         attributes(
                 'Built-By': System.properties['user.name'],
@@ -25,7 +30,7 @@ tasks.register('buildMetadataFile') {
     logger.info("Creating metadata file for inclusion in final artefact")
 
     ext {
-        outDir = "$buildDir/resources/main"
+        outDir = "${project.buildDir}/resources/main"
     }
     doLast {
         mkdir outDir
